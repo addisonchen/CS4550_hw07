@@ -1,0 +1,6 @@
+<h1>Create an Account</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :create)) %>
+
+<div style="height: 20px"></div>
+<span><%= link "Back", to: Routes.page_path(@conn, :index), class: "btn btn-danger" %></span>

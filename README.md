@@ -18,3 +18,30 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+# Tables #
+
+## Meeting
+ - field :name :string
+ - field :date :timestamp
+ - belongs_to :user Events.Users.User
+ - has_many :comments Events.Comments.Comment
+ - has_many :guests Events.Users.User
+
+## Invite
+ - field :status :string
+ - belongs_to :event Events.Meetings.meeting
+ - belongs_to :user Events.User.user
+
+## User
+ - field :name :string
+ - field :email :string :unique
+ - has_many :events Events.Meetings.meeting
+ - has_many :comment Events.Comments.comment
+
+## Comment
+ - field :body :text
+ - field :time :timestamp
+ - belongs_to :user Events.Users.User
+ - belongs_to :event Events.Meetings.meeting

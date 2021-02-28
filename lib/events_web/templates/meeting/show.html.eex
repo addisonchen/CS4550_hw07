@@ -1,0 +1,25 @@
+<h1>Show Meeting</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @meeting.name %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @meeting.date %>
+  </li>
+
+  <li>
+    <strong>Host:</strong>
+    <%= @meeting.user.name %> | <%= @meeting.user.email %>
+  </li>
+
+</ul>
+
+
+<span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "btn btn-secondary" %></span>
+<span><%= link "View Meetings", to: Routes.meeting_path(@conn, :index), class: "btn btn-primary" %></span>
+<span><%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-danger" %></span>

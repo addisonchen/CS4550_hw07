@@ -1,1 +1,33 @@
 @import "bootstrap";
+
+.invalid-feedback {
+    display: block;
+}
+
+.alert {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.whiteLink {
+    color: #ffffff;
+}
+
+.whiteLink:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-row.right {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.flex-row.left {
+    justify-content: flex-start;
+}

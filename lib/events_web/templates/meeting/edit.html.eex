@@ -1,0 +1,10 @@
+<h1>Edit Meeting</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.meeting_path(@conn, :update, @meeting)) %>
+
+<div style="height: 20px"></div>
+<div class="flex-row left">
+    <span><%= link "Delete", to: Routes.meeting_path(@conn, :delete, @meeting), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></span>
+    <div style="width: 20px"></div>
+    <span><%= link "View Meetings", to: Routes.meeting_path(@conn, :index), class: "btn btn-info" %></span>
+</div>

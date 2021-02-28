@@ -1,0 +1,15 @@
+defmodule Events.Repo.Migrations.CreateMeetings do
+  use Ecto.Migration
+
+  def change do
+    create table(:meetings) do
+      add :name, :text, null: false
+      add :date, :utc_datetime, null: false
+      add :user_id, references(:users, on_delete: :nothing), null: false
+
+      timestamps()
+    end
+
+    create index(:meetings, [:user_id])
+  end
+end

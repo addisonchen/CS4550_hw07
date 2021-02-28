@@ -1,0 +1,28 @@
+<h1>Listing Invite</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>User</th>
+      <th>Meeting</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for invite <- @invite do %>
+    <tr>
+      <td><%= invite.status %></td>
+      <td><%= invite.user.name %></td>
+      <td><%= invite.meeting.name %></td>
+      <td>
+        <span><%= link "Show", to: Routes.invite_path(@conn, :show, invite) %></span>
+        <span><%= link "Edit", to: Routes.invite_path(@conn, :edit, invite) %></span>
+        <span><%= link "Delete", to: Routes.invite_path(@conn, :delete, invite), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Invite", to: Routes.invite_path(@conn, :new) %></span>

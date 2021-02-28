@@ -1,0 +1,9 @@
+<h1>Edit User</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :update, @user)) %>
+<div style="height: 20px"></div>
+<div class="flex-row left">
+    <span><%= link "Delete", to: Routes.user_path(@conn, :delete, @user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></span>
+    <div style="width: 20px"></div>
+    <span><%= link "View Users", to: Routes.user_path(@conn, :index), class: "btn btn-info" %></span>
+</div>

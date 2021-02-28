@@ -9,18 +9,51 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <main role="main" class="container">
+    <div role="main" class="container">
       <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
         <p><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
       <% end %>
+      <div class="row">
+        <div class="col-sm-4">
+          <span><%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-success" %></span>
+        </div>
+        <%= if @conn.assigns[:current_user] do %>
+          <div class="col-sm-8 flex-row right">
+            Hello, <%= @current_user.name %>!
+            <div style="width: 20px"></div>
+            <%= link "Profile", to: Routes.user_path(@conn, :show, @current_user), class: "btn btn-primary" %>
+            <div style="width: 20px"></div>
+            <%= link "+ Meeting", to: Routes.meeting_path(@conn, :new), class: "btn btn-primary" %>
+            <div style="width: 20px"></div>
+            <%= link("Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-danger") %>
+          </div>
+        <% else %>
+          <div class="col-sm-8">
+            <div class="flex-row right">
+              <%= form_for @conn, Routes.session_path(@conn, :create),
+              [class: "form-inline"], fn f -> %>
+                <%= text_input f, :email, class: "form-control" %>
+                <%= submit "Login", class: "btn btn-primary" %>
+              <% end %>
+              <div style="width: 30px"></div>
+              <button type="button" class="btn btn-secondary"><%= link "Create an account", to: Routes.user_path(@conn, :new), class: "whiteLink" %></button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+
+
       <%= if get_flash(@conn, :info) do %>
-        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-info margin" role="alert"><%= get_flash(@conn, :info) %></p>
       <% end %>
       <%= if get_flash(@conn, :error) do %>
-        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <p class="alert alert-danger maring" role="alert"><%= get_flash(@conn, :error) %></p>
       <% end %>
-      
+
+      <div style="height: 50px"></div>
+
       <%= @inner_content %>
-    </main>
+    </div>
   </body>
 </html>
