@@ -13,8 +13,13 @@
   </li>
 
   <li>
+    <strong>Description:</strong>
+    <%= @meeting.description %>
+  </li>
+
+  <li>
     <strong>Host:</strong>
-    <%= @meeting.user.name %> | <%= @meeting.user.email %>
+    <%= link "#{@meeting.user.name}", to: Routes.user_path(@conn, :show, @meeting.user) %> | <%= @meeting.user.email %>
   </li>
 
 </ul>

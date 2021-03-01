@@ -5,6 +5,7 @@ defmodule Events.Meetings.Meeting do
   schema "meetings" do
     field :date, :utc_datetime
     field :name, :string
+    field :description, :string
     belongs_to :user, Events.Accounts.User
 
     has_many :invites, Events.Invites.Invite
@@ -16,8 +17,9 @@ defmodule Events.Meetings.Meeting do
 
   @doc false
   def changeset(meeting, attrs) do
+    IO.inspect attrs
     meeting
-    |> cast(attrs, [:name, :date, :user_id])
-    |> validate_required([:name, :date, :user_id])
+    |> cast(attrs, [:name, :date, :user_id, :description])
+    |> validate_required([:name, :date, :user_id, :description])
   end
 end

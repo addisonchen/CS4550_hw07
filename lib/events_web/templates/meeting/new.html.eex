@@ -1,5 +1,5 @@
 <h1>New Meeting</h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.meeting_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.page_path(@conn, :index) %></span>
+<div style="height: 20px"></div>
+<span><%= link "Back", to: Routes.page_path(@conn, :index), class: "btn btn-danger" %></span>

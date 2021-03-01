@@ -15,9 +15,9 @@ defmodule EventsWeb.MeetingController do
   end
 
   def create(conn, %{"meeting" => meeting_params}) do
+    IO.inspect meeting_params
     meeting_params = meeting_params
     |> Map.put("user_id", conn.assigns[:current_user].id)
-    IO.inspect meeting_params
     case Meetings.create_meeting(meeting_params) do
       {:ok, meeting} ->
         conn

@@ -1,7 +1,7 @@
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+      <p>Something went wrong, check the errors below!</p>
     </div>
   <% end %>
 
@@ -12,8 +12,14 @@
 
     <div style="height: 20px"></div>
 
+    <%= label f, :description %>
+    <%= textarea f, :description, class: "form-control" %>
+    <%= error_tag f, :description %>
+
+    <div style="height: 20px"></div>
+
     <%= label f, :date %>
-    <%= datetime_select f, :date%>
+    <%= text_input f, :date, id: "datetime", class: "form-control" %>
     <%= error_tag f, :date %>
 
     <div style="height: 20px"></div>
@@ -21,4 +27,18 @@
       <%= submit "Save", class: "btn btn-primary" %>
     </div>
   </div>
+
+  <script>
+    $(function() {
+      $('input[id="datetime"]').daterangepicker({
+        singleDatePicker: true,
+        timePicker: true,
+        showDropdowns: true,
+        minYear: 2019,
+        locale: {
+          format: 'YYYY-MM-DD hh:mm:ss'
+        }
+      });
+    });
+  </script>
 <% end %>

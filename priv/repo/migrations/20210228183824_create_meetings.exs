@@ -5,6 +5,7 @@ defmodule Events.Repo.Migrations.CreateMeetings do
     create table(:meetings) do
       add :name, :text, null: false
       add :date, :utc_datetime, null: false
+      add :description, :text, null: false
       add :user_id, references(:users, on_delete: :nothing), null: false
 
       timestamps()
