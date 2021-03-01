@@ -1,0 +1,35 @@
+
+Web Dev Spring 2021 HW07 Status
+
+Answer the following questions:
+
+
+1. What's your name?
+Addison Chen
+
+
+2. What's the URL of the github repo with your work for this HW?
+https://github.com/addisonchen/CS4550_hw07
+
+
+3. What's the URL that you deployed to?
+http://events.swoogity.com
+
+
+4. Is your app functionality complete? If not, what's missing?
+I think so, there might be some extra functionality, I started working on the app before reading we only had to go so far.
+
+
+5. Is your app properly deployed? If not, what went wrong?
+Yes
+
+
+6. If you would like the deployment for an old homework to be reconsidered, what
+are the links to your Inkfish submission and deployed site?
+n/a
+
+
+And here's a list of tasks for grading comments. Just leave this here:
+ - Development
+ - Deployment
+ - Submission
