@@ -21,6 +21,7 @@ I think so, there might be some extra functionality (relationships), I started w
 
 Log in to create meetings (button is at the top right "+ meeting")
 
+Users can modify their own account, people cannot delete or modify an account that is not theirs
 
 5. Is your app properly deployed? If not, what went wrong?
 Yes
