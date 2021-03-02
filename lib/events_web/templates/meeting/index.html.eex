@@ -1,11 +1,10 @@
 <h1>Listing Meetings</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th></th>
-      <th>Date</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date</th>
 
       <th></th>
     </tr>
@@ -14,7 +13,6 @@
 <%= for meeting <- @meetings do %>
     <tr>
       <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
-      <td style="width: 20px;"></td>
       <td><%= meeting.date %></td>
     </tr>
 <% end %>
