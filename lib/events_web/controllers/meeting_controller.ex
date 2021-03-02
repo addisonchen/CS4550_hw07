@@ -6,6 +6,15 @@ defmodule EventsWeb.MeetingController do
   alias EventsWeb.Plugs
 
   plug Plugs.RequireUser when action not in [:index, :show]
+  plug :fetchMeeting when action not in [:index, :new, :create]
+
+
+  # TODO: get the meeting from the con in show, edit, ...
+  def fetchMeeting(conn, _params) do
+    id = conn.params["id"]
+    meeting = Meetings.get_meeting!(id)
+    assign(conn, :meeting, meeting)
+  end
 
   def index(conn, _params) do
     meetings = Meetings.list_meetings()
