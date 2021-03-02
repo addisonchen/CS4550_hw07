@@ -3,6 +3,9 @@ defmodule EventsWeb.MeetingController do
 
   alias Events.Meetings
   alias Events.Meetings.Meeting
+  alias EventsWeb.Plugs
+
+  plug Plugs.RequireUser when action not in [:index, :show]
 
   def index(conn, _params) do
     meetings = Meetings.list_meetings()

@@ -1,4 +1,4 @@
-defmodule Events.Plugs.RequireUser do
+defmodule EventsWeb.Plugs.RequireUser do
   use EventsWeb, :controller
 
   def init(args), do: args

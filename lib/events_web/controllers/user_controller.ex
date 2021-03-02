@@ -5,6 +5,8 @@ defmodule EventsWeb.UserController do
   alias Events.Accounts.User
   alias EventsWeb.Plugs
 
+  plug Plugs.RequireUser when action in [:edit, :update]
+
   def index(conn, _params) do
     users = Accounts.list_users()
     render(conn, "index.html", users: users)
