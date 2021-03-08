@@ -4,7 +4,7 @@ defmodule Events.Invites.Invite do
 
   schema "invite" do
     field :status, :string
-    belongs_to :user, Events.Accounts.User
+    field :email, :string
     belongs_to :meeting, Events.Meetings.Meeting
 
     timestamps()
@@ -13,7 +13,7 @@ defmodule Events.Invites.Invite do
   @doc false
   def changeset(invite, attrs) do
     invite
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:status, :email, :meeting_id])
+    |> validate_required([:status, :email, :meeting_id])
   end
 end

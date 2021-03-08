@@ -7,4 +7,9 @@ defmodule EventsWeb.Helpers do
     user = conn.assigns[:current_user]
     user && user.id == user_id
   end
+
+  def invited?(conn, email) do
+    user = conn.assigns[:current_user]
+    user && user.email == email
+  end
 end

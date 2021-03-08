@@ -2,6 +2,7 @@ defmodule EventsWeb.MeetingController do
   use EventsWeb, :controller
 
   alias Events.Meetings
+  alias Events.Invites
   alias Events.Meetings.Meeting
   alias EventsWeb.Plugs
 
@@ -57,7 +58,13 @@ defmodule EventsWeb.MeetingController do
 
   def show(conn, _params) do
     meeting = conn.assigns[:meeting]
-    render(conn, "show.html", meeting: meeting)
+
+    invite = %Invites.Invite{
+      meeting_id: meeting.id,
+    }
+    invite1 = Invites.change_invite(invite)
+
+    render(conn, "show.html", meeting: meeting, newInvite: invite1)
   end
 
   def edit(conn, _params) do

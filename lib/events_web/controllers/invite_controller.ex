@@ -15,14 +15,17 @@ defmodule EventsWeb.InviteController do
   end
 
   def create(conn, %{"invite" => invite_params}) do
+    meeting = invite_params["meeting_id"]
     case Invites.create_invite(invite_params) do
       {:ok, invite} ->
         conn
         |> put_flash(:info, "Invite created successfully.")
-        |> redirect(to: Routes.invite_path(conn, :show, invite))
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+      {:error, %Ecto.Changeset{}} ->
+        conn
+        |> put_flash(:danger, "Failed to create invite")
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end
 
@@ -39,15 +42,17 @@ defmodule EventsWeb.InviteController do
 
   def update(conn, %{"id" => id, "invite" => invite_params}) do
     invite = Invites.get_invite!(id)
-
+    meeting = invite_params["meeting_id"]
     case Invites.update_invite(invite, invite_params) do
       {:ok, invite} ->
         conn
-        |> put_flash(:info, "Invite updated successfully.")
-        |> redirect(to: Routes.invite_path(conn, :show, invite))
+        |> put_flash(:info, "Response status updated successfully.")
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", invite: invite, changeset: changeset)
+        conn
+        |> put_flash(:danger, "Response status update failed.")
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end
 

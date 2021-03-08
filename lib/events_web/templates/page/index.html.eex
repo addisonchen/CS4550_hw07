@@ -18,7 +18,15 @@
     <h2>Users | <span><%= link "view all", to: Routes.user_path(@conn, :index), class: "btn btn-primary" %></span></h2>
     <div class="list-group">
       <%= for user <- @users do %>
-        <span class="list-group-item list-group-item-action"><%= link "#{user.name} - #{user.email}", to: Routes.user_path(@conn, :show, user) %></span>
+        <div class="flex-row left list-group-item list-group-item-action">
+          <%= if user.picture_hash do %>
+            <img class="profilePicture small" src="<%= Routes.user_path(@conn, :picture, user) %>" alt="profile">
+          <% else %>
+            <div class="profilePicture default small"></div>
+          <% end %>
+          <div style="width: 15px;"></div>
+          <%= link "#{user.name} - #{user.email}", to: Routes.user_path(@conn, :show, user) %>
+        </div>
       <% end %>
     </div>
   </div>

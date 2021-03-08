@@ -10,12 +10,12 @@
     </tr>
   </thead>
   <tbody>
-<%= for meeting <- @meetings do %>
-    <tr>
-      <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
-      <td><%= meeting.date %></td>
-    </tr>
-<% end %>
+    <%= for meeting <- @meetings do %>
+        <tr>
+          <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
+          <td><%= meeting.date %></td>
+        </tr>
+    <% end %>
   </tbody>
 </table>
 

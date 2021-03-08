@@ -17,7 +17,6 @@ defmodule Events.Meetings.Meeting do
 
   @doc false
   def changeset(meeting, attrs) do
-    IO.inspect attrs
     meeting
     |> cast(attrs, [:name, :date, :user_id, :description])
     |> validate_required([:name, :date, :user_id, :description])

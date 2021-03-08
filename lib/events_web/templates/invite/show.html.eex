@@ -3,7 +3,7 @@
 <ul>
     <li>
     <strong>Status:</strong>
-    <%= @comment.status %>
+    <%= @invite.status %>
   </li>
 </ul>
 

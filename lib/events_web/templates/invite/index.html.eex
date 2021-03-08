@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Status</th>
-      <th>User</th>
+      <th>Email</th>
       <th>Meeting</th>
       <th></th>
     </tr>
@@ -13,7 +13,7 @@
 <%= for invite <- @invite do %>
     <tr>
       <td><%= invite.status %></td>
-      <td><%= invite.user.name %></td>
+      <td><%= invite.email %></td>
       <td><%= invite.meeting.name %></td>
       <td>
         <span><%= link "Show", to: Routes.invite_path(@conn, :show, invite) %></span>
