@@ -4,7 +4,7 @@ use Mix.Config
 config :events, Events.Repo,
   username: "events",
   password: "fa6Ahx0eeris",
-  database: "events_dev",
+  database: "events_dev_hw08",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

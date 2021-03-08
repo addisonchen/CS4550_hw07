@@ -24,7 +24,8 @@
 
 </ul>
 
-
-<span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "btn btn-secondary" %></span>
+<%= if current_user_id?(@conn, @meeting.user.id) do %>
+  <span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "btn btn-secondary" %></span>
+<% end %>
 <span><%= link "View Meetings", to: Routes.meeting_path(@conn, :index), class: "btn btn-primary" %></span>
 <span><%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-danger" %></span>

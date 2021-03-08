@@ -7,13 +7,27 @@ defmodule EventsWeb.MeetingController do
 
   plug Plugs.RequireUser when action not in [:index, :show]
   plug :fetchMeeting when action not in [:index, :new, :create]
+  plug :requireOwner when action in [:edit, :update, :delete]
 
 
-  # TODO: get the meeting from the con in show, edit, ...
   def fetchMeeting(conn, _params) do
     id = conn.params["id"]
     meeting = Meetings.get_meeting!(id)
     assign(conn, :meeting, meeting)
+  end
+
+  def requireOwner(conn, _params) do
+    user = conn.assigns[:current_user]
+    meeting = conn.assigns[:meeting]
+
+    if user.id == meeting.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Cannot modify someone else's meeting")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
   end
 
   def index(conn, _params) do
@@ -41,19 +55,19 @@ defmodule EventsWeb.MeetingController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    meeting = Meetings.get_meeting!(id)
+  def show(conn) do
+    meeting = conn.assigns[:meeting]
     render(conn, "show.html", meeting: meeting)
   end
 
-  def edit(conn, %{"id" => id}) do
-    meeting = Meetings.get_meeting!(id)
+  def edit(conn) do
+    meeting = conn.assigns[:meeting]
     changeset = Meetings.change_meeting(meeting)
     render(conn, "edit.html", meeting: meeting, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "meeting" => meeting_params}) do
-    meeting = Meetings.get_meeting!(id)
+  def update(conn, %{"meeting" => meeting_params}) do
+    meeting = conn.assigns[:meeting]
 
     case Meetings.update_meeting(meeting, meeting_params) do
       {:ok, meeting} ->
@@ -66,8 +80,8 @@ defmodule EventsWeb.MeetingController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    meeting = Meetings.get_meeting!(id)
+  def delete(conn) do
+    meeting = conn.assigns[:meeting]
     {:ok, _meeting} = Meetings.delete_meeting(meeting)
 
     conn

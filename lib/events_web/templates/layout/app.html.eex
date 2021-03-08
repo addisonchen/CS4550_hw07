@@ -18,8 +18,12 @@
     <div role="main" class="container">
       <div class="row" style="height: 25px;"></div>
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 flex-row left">
           <span><%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-success" %></span>
+          <div style="width: 20px;"></div>
+          <span><%= link "Users", to: Routes.user_path(@conn, :index), class: "btn btn-primary" %></span>
+          <div style="width: 20px;"></div>
+          <span><%= link "Meetings", to: Routes.meeting_path(@conn, :index), class: "btn btn-primary" %></span>
         </div>
         <%= if @conn.assigns[:current_user] do %>
           <div class="col-sm-8 flex-row right">

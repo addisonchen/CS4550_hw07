@@ -29,5 +29,16 @@
 }
 
 .flex-row.left {
+    align-items: center;
     justify-content: flex-start;
+}
+
+.profilePicture {
+    width: 200px;
+}
+
+.profilePicture.default {
+    height: 200px;
+    background: url(/images/defaultpicture.png);
+    background-size: contain;
 }
