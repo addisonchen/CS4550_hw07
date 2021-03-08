@@ -74,6 +74,8 @@ defmodule EventsWeb.UserController do
     user_params = if f do
       {:ok, hash} = ProfilePictures.save_photo(user.email, f.path)
       Map.put(user_params, "picture_hash", hash)
+    else 
+      Map.put(user_params, "picture_hash", nil)
     end
 
     case Accounts.update_user(user, user_params) do

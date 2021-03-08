@@ -55,12 +55,12 @@ defmodule EventsWeb.MeetingController do
     end
   end
 
-  def show(conn) do
+  def show(conn, _params) do
     meeting = conn.assigns[:meeting]
     render(conn, "show.html", meeting: meeting)
   end
 
-  def edit(conn) do
+  def edit(conn, _params) do
     meeting = conn.assigns[:meeting]
     changeset = Meetings.change_meeting(meeting)
     render(conn, "edit.html", meeting: meeting, changeset: changeset)
@@ -80,7 +80,7 @@ defmodule EventsWeb.MeetingController do
     end
   end
 
-  def delete(conn) do
+  def delete(conn, _params) do
     meeting = conn.assigns[:meeting]
     {:ok, _meeting} = Meetings.delete_meeting(meeting)
 

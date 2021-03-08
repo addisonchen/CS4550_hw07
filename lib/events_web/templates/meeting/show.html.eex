@@ -1,31 +1,23 @@
-<h1>Show Meeting</h1>
+<div class="row">
+  <div class="col-md-6">
+    <div class="section">
+      <h1>
+        <%= @meeting.name %>
+        <%= if current_user_id?(@conn, @meeting.user.id) do %>
+          | <span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "btn btn-secondary" %></span>
+        <% end %>
+      </h1>
+      <h4><%= @meeting.date %></h4>
+      <p><%= @meeting.description %></p>
+    </div>
 
-<ul>
+    <div class="section">
+      <h3>Host</h3>
+      <%= link "#{@meeting.user.name}", to: Routes.user_path(@conn, :show, @meeting.user) %> | <%= @meeting.user.email %>
+    </div>
+  </div>
+  <div class="col-md-6">
+  </div>
+</div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @meeting.name %>
-  </li>
 
-  <li>
-    <strong>Date:</strong>
-    <%= @meeting.date %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @meeting.description %>
-  </li>
-
-  <li>
-    <strong>Host:</strong>
-    <%= link "#{@meeting.user.name}", to: Routes.user_path(@conn, :show, @meeting.user) %> | <%= @meeting.user.email %>
-  </li>
-
-</ul>
-
-<%= if current_user_id?(@conn, @meeting.user.id) do %>
-  <span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "btn btn-secondary" %></span>
-<% end %>
-<span><%= link "View Meetings", to: Routes.meeting_path(@conn, :index), class: "btn btn-primary" %></span>
-<span><%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-danger" %></span>
