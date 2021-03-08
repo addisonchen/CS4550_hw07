@@ -14,6 +14,7 @@
     <div class="section">
       <h3>Host</h3>
       <%= link "#{@meeting.user.name}", to: Routes.user_path(@conn, :show, @meeting.user) %> | <%= @meeting.user.email %>
+      <p>add pic here</p>
     </div>
   </div>
   <div class="col-md-6">
