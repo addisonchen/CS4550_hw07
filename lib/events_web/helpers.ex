@@ -8,8 +8,20 @@ defmodule EventsWeb.Helpers do
     user && user.id == user_id
   end
 
-  def invited?(conn, email) do
+  def invited?(conn, [h | t]) do
     user = conn.assigns[:current_user]
-    user && user.email == email
+    if user do
+      if user.email == h.email do
+        h
+      else
+        invited?(conn, t)
+      end
+    else
+      false
+    end
+  end
+
+  def invited?(conn, []) do
+    false
   end
 end

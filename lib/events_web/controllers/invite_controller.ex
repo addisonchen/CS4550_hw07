@@ -3,6 +3,10 @@ defmodule EventsWeb.InviteController do
 
   alias Events.Invites
   alias Events.Invites.Invite
+  alias EventsWeb.Plugs
+
+
+  plug Plugs.RequireUser when action not in [:index, :show]
 
   def index(conn, _params) do
     invite = Invites.list_invite()
@@ -19,7 +23,7 @@ defmodule EventsWeb.InviteController do
     case Invites.create_invite(invite_params) do
       {:ok, invite} ->
         conn
-        |> put_flash(:info, "Invite created successfully.")
+        |> put_flash(:info, "Invite created successfully. Share this link: http://events.swoogity.com/meetings/#{meeting}")
         |> redirect(to: Routes.meeting_path(conn, :show, meeting))
 
       {:error, %Ecto.Changeset{}} ->
@@ -58,10 +62,11 @@ defmodule EventsWeb.InviteController do
 
   def delete(conn, %{"id" => id}) do
     invite = Invites.get_invite!(id)
+    meeting = invite.meeting_id
     {:ok, _invite} = Invites.delete_invite(invite)
 
     conn
     |> put_flash(:info, "Invite deleted successfully.")
-    |> redirect(to: Routes.invite_path(conn, :index))
+    |> redirect(to: Routes.meeting_path(conn, :show, meeting))
   end
 end
