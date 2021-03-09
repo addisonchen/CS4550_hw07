@@ -7,6 +7,7 @@ defmodule Events.Accounts do
   alias Events.Repo
 
   alias Events.Accounts.User
+  alias Events.Invites.Invite
 
   @doc """
   Returns the list of users.
@@ -19,6 +20,15 @@ defmodule Events.Accounts do
   """
   def list_users do
     Repo.all(User)
+  end
+
+  def list_invited_to(%User{} = user) do
+    invites = Repo.all(Invite) |> Repo.preload(:meeting)
+
+    Enum.filter(invites, fn(invite) ->
+      user.email == invite.email
+    end)
+    
   end
 
   @doc """

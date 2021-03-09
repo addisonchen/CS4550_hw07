@@ -25,28 +25,48 @@
 <div style="height: 50px"></div>
 
 <div class="row">
-  <%= if current_user_id?(@conn, @user.id) do %>
-    <h2>Meetings | <%= link("+ Meeting", to: Routes.meeting_path(@conn, :new), class: "btn btn-secondary") %></h2>
-  <% else %>
-    <h2>Meetings</h2>
-  <% end %>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Date</th>
-
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for meeting <- @user.meetings do %>
-          <tr>
-            <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
-            <td><%= meeting.date %></td>
-          </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="col-md-6">
+    <%= if current_user_id?(@conn, @user.id) do %>
+      <h2>Meetings | <%= link("+ Meeting", to: Routes.meeting_path(@conn, :new), class: "btn btn-secondary") %></h2>
+    <% else %>
+      <h2>Meetings</h2>
+    <% end %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for meeting <- @user.meetings do %>
+            <tr>
+              <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
+              <td><%= meeting.date %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h2>Invited To:</h2>
+    <% invitedTo = Events.Accounts.list_invited_to(@user) %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for invite <- invitedTo do %>
+            <tr>
+              <td><span><%= link "#{invite.meeting.name}", to: Routes.meeting_path(@conn, :show, invite.meeting) %></span></td>
+              <td><%= invite.meeting.date %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 

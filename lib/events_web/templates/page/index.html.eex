@@ -4,7 +4,7 @@
   </div>
 </div>
 
-
+<div style="height: 50px"></div>
 <div class="row">
   <div class="col-md-6">
     <h2>Meetings | <span><%= link "view all", to: Routes.meeting_path(@conn, :index), class: "btn btn-primary" %></span></h2>
