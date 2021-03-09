@@ -57,7 +57,25 @@
         <% end %>
       <% else %>
         <div class="section filled">
-          <h6>Log in or create account to respond</h6>
+          <h4>Log in</h4>
+          <div class="flex-col">
+            <%= form_for @conn, Routes.session_path(@conn, :create),
+              [class: "form-inline"], fn f -> %>
+              <%= text_input f, :email, class: "form-control" %>
+              <%= submit "Login", class: "btn btn-success" %>
+              <%= hidden_input f, :redirect_to, value: Routes.meeting_path(@conn, :show, @meeting) %>
+            <% end %>
+            <div style="height: 20px"></div>
+            <hr>
+            <h4>Create Account</h4>
+            <%= render(
+              EventsWeb.UserView,
+              "redirectForm.html",
+              changeset: Events.Accounts.change_user(%Events.Accounts.User{}),
+              action: Routes.user_path(@conn, :create),
+              redirect_to: Routes.meeting_path(@conn, :show, @meeting)
+            ) %>
+          </div>
         </div>
       <% end %>
     <% end %>

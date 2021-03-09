@@ -5,6 +5,7 @@ defmodule EventsWeb.UserController do
   alias Events.Accounts.User
   alias EventsWeb.Plugs
   alias Events.ProfilePictures
+  alias EventsWeb.SessionController
 
   plug Plugs.RequireUser when action in [:edit, :update, :delete]
 
@@ -19,8 +20,6 @@ defmodule EventsWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    IO.inspect user_params
-
     f = user_params["picture"]
     
     user_params = if f do
@@ -34,18 +33,19 @@ defmodule EventsWeb.UserController do
       Map.delete(user_params, "picture")
     end 
 
-    IO.inspect user_params
+    user_params_filter_redirect = Map.delete(user_params, "redirect_to")
 
-    case Accounts.create_user(user_params) do
-      {:ok, user} ->
+    case Accounts.create_user(user_params_filter_redirect) do
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> SessionController.create(user_params)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
+
 
   def picture(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
@@ -95,6 +95,6 @@ defmodule EventsWeb.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: Routes.user_path(conn, :index))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end

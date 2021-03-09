@@ -31,8 +31,11 @@
     text-decoration: inherit !important;
 }
 
+.fullScreenHeight {
+    min-height: 100vh;
+}
+
 .footer {
-    position: absolute;
     height: 50px;
     width: 100vw;
     bottom: 0px;

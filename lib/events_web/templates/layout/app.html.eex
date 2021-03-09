@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div role="main" class="container">
+    <div role="main" class="container fullScreenHeight">
       <div class="row" style="height: 20px;"></div>
 
       <%= if get_flash(@conn, :info) do %>
@@ -82,6 +82,6 @@
       <%= @inner_content %>
     </div>
 
-    <div class="footer">
+    <div class="footer"></div>
   </body>
 </html>
