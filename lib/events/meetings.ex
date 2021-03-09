@@ -22,6 +22,46 @@ defmodule Events.Meetings do
     |> Repo.preload(:user)
   end
 
+  def load_responses(%Meeting{} = meeting) do
+    meeting = Repo.preload(meeting, :invites)
+
+    invites = meeting.invites
+
+    yes = Enum.reduce(invites, 0, fn(x, acc) ->
+      if x.status == "yes" do
+        acc + 1
+      else
+        acc
+      end
+    end)
+
+    no = Enum.reduce(invites, 0, fn(x, acc) ->
+      if x.status == "no" do
+        acc + 1
+      else
+        acc
+      end
+    end)
+
+    maybe = Enum.reduce(invites, 0, fn(x, acc) ->
+      if x.status == "maybe" do
+        acc + 1
+      else
+        acc
+      end
+    end)
+
+    noResponse = Enum.reduce(invites, 0, fn(x, acc) ->
+      if x.status == "none" do
+        acc + 1
+      else
+        acc
+      end
+    end)
+
+    %{yes: yes, no: no, maybe: maybe, noResponse: noResponse}
+  end
+
   @doc """
   Gets a single meeting.
 

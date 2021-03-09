@@ -3,6 +3,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <th scope="col"></th>
       <th scope="col">Name</th>
 
       <th scope="col">Email</th>
@@ -11,6 +12,13 @@
   <tbody>
     <%= for user <- @users do %>
         <tr>
+          <td style="width: 30px">
+            <%= if user.picture_hash do %>
+              <img class="profilePicture small" src="<%= Routes.user_path(@conn, :picture, user) %>" alt="profile">
+            <% else %>
+              <div class="profilePicture default small"></div>
+            <% end %>
+          </td>
           <td><span><%= link "#{user.name}", to: Routes.user_path(@conn, :show, user) %></span></td>
 
           <td><%= user.email %></td>

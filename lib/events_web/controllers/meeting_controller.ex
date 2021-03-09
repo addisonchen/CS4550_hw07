@@ -64,7 +64,9 @@ defmodule EventsWeb.MeetingController do
     }
     invite1 = Invites.change_invite(invite)
 
-    render(conn, "show.html", meeting: meeting, newInvite: invite1)
+    responses = Meetings.load_responses(meeting)
+
+    render(conn, "show.html", meeting: meeting, newInvite: invite1, responses: responses)
   end
 
   def edit(conn, _params) do

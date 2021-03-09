@@ -5,6 +5,7 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Date</th>
+      <th scope="col">Host</th>
 
       <th></th>
     </tr>
@@ -14,6 +15,7 @@
         <tr>
           <td><span><%= link "#{meeting.name}", to: Routes.meeting_path(@conn, :show, meeting) %></span></td>
           <td><%= meeting.date %></td>
+          <td><%= meeting.user.name %></td>
         </tr>
     <% end %>
   </tbody>

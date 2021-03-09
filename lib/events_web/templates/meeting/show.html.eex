@@ -8,6 +8,16 @@
         <% end %>
       </h1>
       <h4><%= @meeting.date %></h4>
+      <p>
+        <span class="text-success"><%= @responses.yes %></span> Going | 
+        <span class="text-danger"><%= @responses.no %></span> Can't Go | 
+        <span class="text-primary"><%= @responses.maybe %></span> Maybe | 
+        <span class="text-secondary"><%= @responses.noResponse %></span> No Reply
+      </p>
+    </div>
+
+    <div class="section filled">
+      <h3>Description:</h3>
       <p><%= @meeting.description %></p>
     </div>
 
@@ -57,7 +67,8 @@
         <% end %>
       <% else %>
         <div class="section filled">
-          <h4>Log in</h4>
+          <p>In order to respond, log in or create an account</p>
+          <h5>Log in</h5>
           <div class="flex-col">
             <%= form_for @conn, Routes.session_path(@conn, :create),
               [class: "form-inline"], fn f -> %>
@@ -67,7 +78,7 @@
             <% end %>
             <div style="height: 20px"></div>
             <hr>
-            <h4>Create Account</h4>
+            <h5>Create Account</h5>
             <%= render(
               EventsWeb.UserView,
               "redirectForm.html",
@@ -102,7 +113,22 @@
         <tbody>
           <%= for invite <- @meeting.invites do %>
               <tr>
-                <td><%= invite.email %></td>
+                <td>
+                  <% invitedUser = Events.Accounts.get_user_by_email(invite.email) %>
+                  <%= if invitedUser do %>
+                    <div class="flex-row left">
+                      <%= if invitedUser.picture_hash do %>
+                        <img class="profilePicture small" src="<%= Routes.user_path(@conn, :picture, invitedUser) %>" alt="profile">
+                      <% else %>
+                        <div class="profilePicture default small"></div>
+                      <% end %>
+                      <div style="width: 15px;"></div>
+                      <%= link "#{invitedUser.name}", to: Routes.user_path(@conn, :show, invitedUser) %>
+                    </div>
+                  <% else %>
+                    <%= invite.email %>
+                  <% end %>
+                </td>
                 <td><%= invite.status %></td>
                 <%= if current_user_id?(@conn, @meeting.user.id) do %>
                   <td><%= link "Delete", to: Routes.invite_path(@conn, :delete, invite), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %></td>
