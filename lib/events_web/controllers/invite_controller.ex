@@ -2,7 +2,6 @@ defmodule EventsWeb.InviteController do
   use EventsWeb, :controller
 
   alias Events.Invites
-  alias Events.Invites.Invite
   alias EventsWeb.Plugs
   alias Events.Meetings
   alias Events.Accounts

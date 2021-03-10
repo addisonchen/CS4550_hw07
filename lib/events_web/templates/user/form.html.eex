@@ -18,7 +18,7 @@
 
       <div style="height: 20px"></div>
 
-      <%= label f, :picture, "Profile Picture" %>
+      <%= label f, :picture, "Profile Picture (small jpg or it will break)" %>
       <%= file_input f, :picture, class: "form-control" %>
       <%= error_tag f, :picture %>
     

@@ -21,7 +21,7 @@ defmodule EventsWeb.Helpers do
     end
   end
 
-  def invited?(conn, []) do
+  def invited?(_conn, []) do
     false
   end
 end

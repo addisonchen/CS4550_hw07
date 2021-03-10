@@ -2,7 +2,6 @@ defmodule EventsWeb.CommentController do
   use EventsWeb, :controller
 
   alias Events.Comments
-  alias Events.Comments.Comment
   alias EventsWeb.Plugs
   alias EventsWeb.Helpers
   alias Events.Meetings
@@ -79,7 +78,7 @@ defmodule EventsWeb.CommentController do
     end
 
   end
-  
+
   def create(conn, %{"comment" => comment_params}) do
     meeting = comment_params["meeting_id"]
     IO.puts "here"
