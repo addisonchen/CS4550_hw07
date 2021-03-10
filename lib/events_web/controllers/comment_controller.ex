@@ -28,8 +28,9 @@ defmodule EventsWeb.CommentController do
       conn
     else
       conn
-      |> put_flash(:danger, "Must be invited or the host to add a comment")
+      |> put_flash(:error, "Must be invited or the host to add a comment")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+      |> halt()
      end
   end
 
@@ -50,8 +51,9 @@ defmodule EventsWeb.CommentController do
       conn
     else
       conn
-      |> put_flash(:danger, "Must be a host or the comment poster to delete a comment")
+      |> put_flash(:error, "Must be a host or the comment poster to delete a comment")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+      |> halt()
     end
   end
 
@@ -69,8 +71,9 @@ defmodule EventsWeb.CommentController do
       conn
     else
       conn
-      |> put_flash(:danger, "Only the comment poster can modify a comment")
+      |> put_flash(:error, "Only the comment poster can modify a comment")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+      |> halt()
     end
 
   end
@@ -97,7 +100,7 @@ defmodule EventsWeb.CommentController do
       {:error, %Ecto.Changeset{} = changeset} ->
         IO.inspect changeset
         conn
-        |> put_flash(:danger, "Failed to create invite")
+        |> put_flash(:error, "Failed to create invite")
         |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end

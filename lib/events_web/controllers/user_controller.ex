@@ -8,6 +8,21 @@ defmodule EventsWeb.UserController do
   alias EventsWeb.SessionController
 
   plug Plugs.RequireUser when action in [:edit, :update, :delete]
+  plug :requireCurrentUser when action in [:edit, :update, :delete]
+
+  def requireCurrentUser(conn, _params) do
+    cur_user_id = conn.assigns[:current_user].id
+
+    target_user_id = conn.params["id"]
+    if "#{cur_user_id}" == target_user_id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Cannot modify someone else's account.")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
+  end
 
   def index(conn, _params) do
     users = Accounts.list_users()

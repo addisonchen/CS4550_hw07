@@ -24,8 +24,9 @@ defmodule EventsWeb.InviteController do
       conn
     else
       conn
-      |> put_flash(:danger, "Only the meeting host can create invites")
+      |> put_flash(:error, "Only the meeting host can create invites")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+      |> halt()
      end
   end
 
@@ -42,8 +43,9 @@ defmodule EventsWeb.InviteController do
       conn
     else
       conn
-      |> put_flash(:danger, "Only the meeting host can create invites")
+      |> put_flash(:error, "Only the meeting host can create invites")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+      |> halt()
      end
   end
 
@@ -60,7 +62,7 @@ defmodule EventsWeb.InviteController do
       conn
     else
       conn
-      |> put_flash(:danger, "Only the meeting host can create invites")
+      |> put_flash(:error, "Only the meeting host can create invites")
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
      end
   end
@@ -92,7 +94,7 @@ defmodule EventsWeb.InviteController do
 
         {:error, %Ecto.Changeset{}} ->
           conn
-          |> put_flash(:danger, "Failed to create invite")
+          |> put_flash(:error, "Failed to create invite")
           |> redirect(to: Routes.meeting_path(conn, :show, meeting))
       end
     end
@@ -120,7 +122,7 @@ defmodule EventsWeb.InviteController do
 
       {:error, %Ecto.Changeset{} = _changeset} ->
         conn
-        |> put_flash(:danger, "Response status update failed.")
+        |> put_flash(:error, "Response status update failed.")
         |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end
