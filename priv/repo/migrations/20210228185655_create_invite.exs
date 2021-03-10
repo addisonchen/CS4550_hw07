@@ -5,7 +5,7 @@ defmodule Events.Repo.Migrations.CreateInvite do
     create table(:invite) do
       add :status, :string, null: false
       add :email, :string, null: false
-      add :meeting_id, references(:meetings, on_delete: :nothing), null: false
+      add :meeting_id, references(:meetings, on_delete: :delete_all), null: false
 
       timestamps()
     end

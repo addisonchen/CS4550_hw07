@@ -8,8 +8,8 @@ defmodule Events.Meetings.Meeting do
     field :description, :string
     belongs_to :user, Events.Accounts.User
 
-    has_many :invites, Events.Invites.Invite
-    has_many :comments, Events.Comments.Comment
+    has_many :invites, Events.Invites.Invite, on_delete: :delete_all
+    has_many :comments, Events.Comments.Comment, on_delete: :delete_all
 
 
     timestamps()

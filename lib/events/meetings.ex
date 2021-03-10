@@ -95,7 +95,6 @@ defmodule Events.Meetings do
 
   """
   def create_meeting(attrs \\ %{}) do
-    IO.inspect attrs
     %Meeting{}
     |> Meeting.changeset(attrs)
     |> Repo.insert()

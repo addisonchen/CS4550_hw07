@@ -7,8 +7,7 @@ defmodule Events.Accounts.User do
     field :name, :string
     field :picture_hash, :string
 
-    has_many :meetings, Events.Meetings.Meeting
-    has_many :invites, Events.Invites.Invite
+    has_many :meetings, Events.Meetings.Meeting, on_delete: :delete_all
 
     timestamps()
   end

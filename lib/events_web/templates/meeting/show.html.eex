@@ -22,7 +22,7 @@
     </div>
 
     <div class="section filled">
-      <h3>Host</h3>
+      <h3>Host:</h3>
       <div class="flex-row left">
         <div>
           <%= if @meeting.user.picture_hash do %>
@@ -52,14 +52,18 @@
       </div>
       <div class="collapse show" id="collapseExample">
         <div style="height: 25px"></div>
-        <%= render(
-          EventsWeb.CommentView,
-          "createCommentForm.html",
-          changeset: @newComment,
-          action: Routes.comment_path(@conn, :create),
-          meetingId: @meeting.id,
-          userId: @conn.assigns[:current_user].id
-        ) %>
+        <%= if invited?(@conn, @meeting.invites) ||  current_user_id?(@conn, @meeting.user.id) do %>
+          <%= render(
+            EventsWeb.CommentView,
+            "createCommentForm.html",
+            changeset: @newComment,
+            action: Routes.comment_path(@conn, :create),
+            meetingId: @meeting.id,
+            userId: @conn.assigns[:current_user].id
+          ) %>
+        <% else %>
+          <p style="margin: 0px;">You must be invited to comment</p>
+        <% end %>
         <div style="height: 25px"></div>
         <ul class="list-group">
           <% comments = Events.Comments.get_comments_for_meeting(@meeting.id) %>
