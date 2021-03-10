@@ -35,7 +35,21 @@ defmodule Events.Comments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_comment!(id), do: Repo.get!(Comment, id)
+
+  def get_comment!(id) do
+    Repo.get!(Comment, id)
+    |> Repo.preload(:user)
+  end
+
+  def get_comments_for_meeting(id) do
+    comments = Repo.all(Comment)
+    |> Repo.preload(:meeting)
+    |> Repo.preload(:user)
+    IO.inspect comments
+    Enum.filter(comments, fn(comment) ->
+      comment.meeting.id == id
+    end)
+  end
 
   @doc """
   Creates a comment.

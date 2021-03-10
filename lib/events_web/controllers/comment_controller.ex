@@ -3,6 +3,9 @@ defmodule EventsWeb.CommentController do
 
   alias Events.Comments
   alias Events.Comments.Comment
+  alias EventsWeb.Plugs
+
+  plug Plugs.RequireUser when action not in [:index, :show]
 
   def index(conn, _params) do
     comments = Comments.list_comments()
@@ -15,14 +18,19 @@ defmodule EventsWeb.CommentController do
   end
 
   def create(conn, %{"comment" => comment_params}) do
+    meeting = comment_params["meeting_id"]
+    IO.puts "here"
     case Comments.create_comment(comment_params) do
-      {:ok, comment} ->
+      {:ok, _comment} ->
         conn
         |> put_flash(:info, "Comment created successfully.")
-        |> redirect(to: Routes.comment_path(conn, :show, comment))
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        IO.inspect changeset
+        conn
+        |> put_flash(:danger, "Failed to create invite")
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end
 
@@ -39,24 +47,27 @@ defmodule EventsWeb.CommentController do
 
   def update(conn, %{"id" => id, "comment" => comment_params}) do
     comment = Comments.get_comment!(id)
-
+    meeting = comment_params["meeting_id"]
     case Comments.update_comment(comment, comment_params) do
-      {:ok, comment} ->
+      {:ok, _comment} ->
         conn
         |> put_flash(:info, "Comment updated successfully.")
-        |> redirect(to: Routes.comment_path(conn, :show, comment))
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", comment: comment, changeset: changeset)
+      {:error, %Ecto.Changeset{}} ->
+        conn
+        |> put_flash(:info, "Failed to update comment.")
+        |> redirect(to: Routes.meeting_path(conn, :show, meeting))
     end
   end
 
   def delete(conn, %{"id" => id}) do
     comment = Comments.get_comment!(id)
+    meeting = comment.meeting_id
     {:ok, _comment} = Comments.delete_comment(comment)
 
     conn
     |> put_flash(:info, "Comment deleted successfully.")
-    |> redirect(to: Routes.comment_path(conn, :index))
+    |> redirect(to: Routes.meeting_path(conn, :show, meeting))
   end
 end

@@ -36,6 +36,7 @@
 }
 
 .footer {
+    margin-top: 50px;
     height: 50px;
     width: 100vw;
     bottom: 0px;
@@ -56,6 +57,11 @@
 .flex-row.left {
     align-items: center;
     justify-content: flex-start;
+}
+
+.flex-row.between {
+    align-items: center;
+    justify-content: space-between;
 }
 
 .flex-col {
@@ -91,7 +97,7 @@
 }
 
 .section.filled {
-    background-color: rgb(241, 241, 241);
-    border: 1px solid rgb(189, 189, 189);
+    background-color: rgb(250, 250, 250);
+    border: 1px solid rgb(201, 201, 201);
     border-radius: 10px;
 }

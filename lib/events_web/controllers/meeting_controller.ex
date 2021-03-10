@@ -3,6 +3,7 @@ defmodule EventsWeb.MeetingController do
 
   alias Events.Meetings
   alias Events.Invites
+  alias Events.Comments
   alias Events.Meetings.Meeting
   alias EventsWeb.Plugs
 
@@ -64,9 +65,15 @@ defmodule EventsWeb.MeetingController do
     }
     invite1 = Invites.change_invite(invite)
 
+    comment = %Comments.Comment {
+      meeting_id: meeting.id
+    }
+
+    comment1 = Comments.change_comment(comment)
+
     responses = Meetings.load_responses(meeting)
 
-    render(conn, "show.html", meeting: meeting, newInvite: invite1, responses: responses)
+    render(conn, "show.html", meeting: meeting, newInvite: invite1, newComment: comment1, responses: responses)
   end
 
   def edit(conn, _params) do

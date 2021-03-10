@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-md-6">
     <div class="section filled">
       <h1>
         <%= @meeting.name %>
@@ -42,13 +42,70 @@
         </div>
       </div>
     </div>
+
+    <div class="section filled">
+      <div class="flex-row between">
+        <h3>Comments</h3>
+        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          View/Hide
+        </button>
+      </div>
+      <div class="collapse show" id="collapseExample">
+        <div style="height: 25px"></div>
+        <%= render(
+          EventsWeb.CommentView,
+          "createCommentForm.html",
+          changeset: @newComment,
+          action: Routes.comment_path(@conn, :create),
+          meetingId: @meeting.id,
+          userId: @conn.assigns[:current_user].id
+        ) %>
+        <div style="height: 25px"></div>
+        <ul class="list-group">
+          <% comments = Events.Comments.get_comments_for_meeting(@meeting.id) %>
+          <%= for comment <- comments do %>
+            <div class="list-group-item">
+              <div class="flex-row between">
+                <div class="flex-row left">
+                  <%= if comment.user.picture_hash do %>
+                    <img class="profilePicture small" src="<%= Routes.user_path(@conn, :picture, comment.user) %>" alt="profile">
+                  <% else %>
+                    <div class="profilePicture default small"></div>
+                  <% end %>
+                  <div style="width: 15px;"></div>
+                  <%= link "#{comment.user.name}:", to: Routes.user_path(@conn, :show, comment.user) %>
+                  <div style="width: 5px;"></div>
+                  <p style="margin: 0px;"><%= comment.body %></p>
+                </div>
+                <%= if (current_user_id?(@conn, @meeting.user.id)) || (current_user_id?(@conn, comment.user.id))  do %>
+                  <td><%= link "Delete", to: Routes.comment_path(@conn, :delete, comment), method: :delete, data: [confirm: "Are you sure?"], class: "btn-sm btn-outline-danger" %></td>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <div class="col-lg-6">
+  <div class="col-md-6">
     <% invite = invited?(@conn, @meeting.invites) %>
     <%= if invite != false do %>
       <div class="section filled">
-        <h2>You are invited!</h2>
+        <%= case invite.status do %>
+          <% "yes" -> %>
+            <h2>You are attending!</h2>
+            <p>Modify response below:</p>
+          <% "no" -> %>
+            <h2>You are not attending</h2>
+            <p>Modify response below:</p>
+          <% "maybe" -> %>
+            <h2>You might attend</h2>
+            <p>Modify response below:</p>
+          <% _ -> %> 
+            <h2>You are invited!</h2>
+            <p>Respond below:</p>
+        <% end %>
         <%= render(
             EventsWeb.InviteView,
             "editStatusForm.html",
@@ -62,7 +119,9 @@
       <%= if have_current_user?(@conn) do %>
         <%= if not current_user_id?(@conn, @meeting.user.id) do %>
           <div class="section filled">
-            <h6>You are not invited</h6>
+            <h2>You are not invited</h2>
+            <p>Contact the host if you would like to attend.</p>
+            <p>If you are supposed to be invited but weren't, the host may have invited the wrong email address.</p>
           </div>
         <% end %>
       <% else %>
