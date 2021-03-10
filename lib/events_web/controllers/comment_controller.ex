@@ -4,8 +4,76 @@ defmodule EventsWeb.CommentController do
   alias Events.Comments
   alias Events.Comments.Comment
   alias EventsWeb.Plugs
+  alias EventsWeb.Helpers
+  alias Events.Meetings
 
   plug Plugs.RequireUser when action not in [:index, :show]
+  plug :requireInvitedOrHost when action in [:create]
+  plug :requireHostOrCommenter when action in [:delete]
+  plug :requireCommenter when action in [:update]
+
+
+  def requireInvitedOrHost(conn, _opts) do
+    meeting_id = conn.params["comment"]["meeting_id"]
+
+    meeting = Meetings.get_meeting!(meeting_id)
+
+    meeting_owner_id = meeting.user.id
+
+    invites = meeting.invites
+
+    cur_user_id = conn.assigns[:current_user].id
+
+    if (cur_user_id == meeting_owner_id) ||  (Helpers.invited?(conn, invites)) do
+      conn
+    else
+      conn
+      |> put_flash(:danger, "Must be invited or the host to add a comment")
+      |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+     end
+  end
+
+  def requireHostOrCommenter(conn, _opts) do
+    comment_id = conn.params["id"]
+
+    comment = Comments.get_comment!(comment_id)
+
+    meeting_id = comment.meeting.id
+
+    host_id = Meetings.get_meeting!(comment.meeting_id).user.id
+
+    commenter_id = comment.user.id
+
+    cur_user_id = conn.assigns[:current_user].id
+
+    if (cur_user_id == host_id) || (cur_user_id == commenter_id) do
+      conn
+    else
+      conn
+      |> put_flash(:danger, "Must be a host or the comment poster to delete a comment")
+      |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+    end
+  end
+
+  def requireCommenter(conn, _opts) do
+    comment = conn.params["id"]
+      |> Comments.get_comment!
+    
+    commenter_id = comment.user.id
+
+    meeting_id = comment.meeting.id
+
+    cur_user_id = conn.assigns[:current_user].id
+
+    if (cur_user_id == commenter_id) do
+      conn
+    else
+      conn
+      |> put_flash(:danger, "Only the comment poster can modify a comment")
+      |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
+    end
+
+  end
 
   def index(conn, _params) do
     comments = Comments.list_comments()

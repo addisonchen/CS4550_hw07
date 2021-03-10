@@ -11,7 +11,7 @@ defmodule EventsWeb.InviteController do
   plug Plugs.RequireUser when action not in [:index, :show]
   plug :requireMeetingOwnerCreate when action in [:create]
   plug :requireMeetingOwnerDelete when action in [:delete]
-  plug :requireInvitedOrCreator when action in [:update]
+  plug :requireInvitedOrHost when action in [:update]
 
   def requireMeetingOwnerCreate(conn, _params) do    
     meeting_id = conn.params["invite"]["meeting_id"]
@@ -47,7 +47,7 @@ defmodule EventsWeb.InviteController do
      end
   end
 
-  def requireInvitedOrCreator(conn, _params) do
+  def requireInvitedOrHost(conn, _params) do
     meeting_id = conn.params["invite"]["meeting_id"]
     
     meeting_owner_id = Meetings.get_meeting!(meeting_id).user.id
