@@ -1,27 +1,4 @@
-# Events
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
-
-
 # Tables #
-
 ## Meeting
  - field :name :string
  - field :date :timestamp
@@ -31,8 +8,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## Invite
  - field :status :string
+ - field :email: :string
  - belongs_to :event Events.Meetings.meeting
- - belongs_to :user Events.User.user
 
 ## User
  - field :name :string
@@ -45,3 +22,29 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
  - field :time :timestamp
  - belongs_to :user Events.Users.User
  - belongs_to :event Events.Meetings.meeting
+
+# design decistions #
+
+## user experience
+ - No index/show/edit for comments and invites
+    - create, delete, and respond to invites and comments from the meething/show.html.eex
+  
+ - Send the meeting link to guests, not an invite link (no "show" for invites)
+    - Guests who go the meeting link will be asked to log in or create an account (clear section on the show meeting page)
+  
+ - navigation
+  - if logged in:
+    - view profile, create meeting, and logout buttons on top right of screen
+  - if not logged in:
+    - login and create account items in top right of screen
+  
+ - user pages:
+  - see a user's meetings and meetings that they are invited to
+
+ - responses:
+  - if invited, use the dropdown select form to tell the host if you will be attending
+  - if not invited, there will be no dropdown select
+  - if you arent logged in, you will be prompted to log in or create an account first
+  - backed by plugs on the server
+
+  
