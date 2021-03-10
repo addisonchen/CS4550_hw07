@@ -5,7 +5,7 @@
 export SECRET_KEY_BASE=r0ZqmXKFwRGpEtBpS5r18OpghlHZrutfzTIiaXOK9GvQPq9K73KkXlT4yVhAOpMP
 export MIX_ENV=prod
 export PORT=5234
-export DATABASE_URL=ecto://events:fa6Ahx0eeris@localhost:5432/events_dev
+export DATABASE_URL=ecto://events:fa6Ahx0eeris@localhost:5432/events_prod
 
 
 echo "Stopping old copy of app, if any..."

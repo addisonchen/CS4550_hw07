@@ -69,18 +69,6 @@ defmodule EventsWeb.InviteController do
       |> redirect(to: Routes.meeting_path(conn, :show, meeting_id))
      end
   end
-  
-
-
-  def index(conn, _params) do
-    invite = Invites.list_invite()
-    render(conn, "index.html", invite: invite)
-  end
-
-  def new(conn, _params) do
-    changeset = Invites.change_invite(%Invite{})
-    render(conn, "new.html", changeset: changeset)
-  end
 
   def create(conn, %{"invite" => invite_params}) do
     meeting = invite_params["meeting_id"]
@@ -101,17 +89,6 @@ defmodule EventsWeb.InviteController do
           |> redirect(to: Routes.meeting_path(conn, :show, meeting))
       end
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    invite = Invites.get_invite!(id)
-    render(conn, "show.html", invite: invite)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    invite = Invites.get_invite!(id)
-    changeset = Invites.change_invite(invite)
-    render(conn, "edit.html", invite: invite, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "invite" => invite_params}) do
