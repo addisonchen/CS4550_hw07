@@ -47,4 +47,8 @@
   - if you arent logged in, you will be prompted to log in or create an account first
   - backed by plugs on the server
 
-  
+ - default profile picture if the user does not upload one
+
+ - does not handle file too large error
+
+
