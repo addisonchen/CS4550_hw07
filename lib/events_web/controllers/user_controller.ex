@@ -10,6 +10,7 @@ defmodule EventsWeb.UserController do
   plug Plugs.RequireUser when action in [:edit, :update, :delete]
   plug :requireCurrentUser when action in [:edit, :update, :delete]
 
+  # access control, user can only modify or delete themselves
   def requireCurrentUser(conn, _params) do
     cur_user_id = conn.assigns[:current_user].id
 

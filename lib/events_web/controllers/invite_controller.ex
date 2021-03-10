@@ -13,6 +13,7 @@ defmodule EventsWeb.InviteController do
   plug :requireMeetingOwnerDelete when action in [:delete]
   plug :requireInvitedOrHost when action in [:update]
 
+  # access control: onlymeeting owners can create invites
   def requireMeetingOwnerCreate(conn, _params) do    
     meeting_id = conn.params["invite"]["meeting_id"]
     
@@ -30,6 +31,7 @@ defmodule EventsWeb.InviteController do
      end
   end
 
+  # access control: only meeting owners can delete invites
   def requireMeetingOwnerDelete(conn, _params) do    
     invite_id = conn.params["id"]
 
@@ -49,6 +51,7 @@ defmodule EventsWeb.InviteController do
      end
   end
 
+  # access control: only the host or the person invited can modify
   def requireInvitedOrHost(conn, _params) do
     meeting_id = conn.params["invite"]["meeting_id"]
     

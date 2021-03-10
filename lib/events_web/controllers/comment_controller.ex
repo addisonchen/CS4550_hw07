@@ -12,7 +12,7 @@ defmodule EventsWeb.CommentController do
   plug :requireHostOrCommenter when action in [:delete]
   plug :requireCommenter when action in [:update]
 
-
+  # access control: only guests and hosts can create comments
   def requireInvitedOrHost(conn, _opts) do
     meeting_id = conn.params["comment"]["meeting_id"]
 
@@ -34,6 +34,7 @@ defmodule EventsWeb.CommentController do
      end
   end
 
+  # access control: only hosts or the comment owner can delete
   def requireHostOrCommenter(conn, _opts) do
     comment_id = conn.params["id"]
 
@@ -57,6 +58,7 @@ defmodule EventsWeb.CommentController do
     end
   end
 
+  # access control: only the commentor can modify
   def requireCommenter(conn, _opts) do
     comment = conn.params["id"]
       |> Comments.get_comment!
