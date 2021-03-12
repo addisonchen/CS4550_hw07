@@ -51,4 +51,7 @@
 
  - does not handle file too large error
 
+## attribution
+Includes code from and based on Prof Tuck's in-class PhotoBlog example.
+
 

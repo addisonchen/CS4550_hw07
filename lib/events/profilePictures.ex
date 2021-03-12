@@ -1,3 +1,4 @@
+# based on code from Nat's photoblog app
 defmodule Events.ProfilePictures do
   def save_photo(name, path) do
     data = File.read!(path)
